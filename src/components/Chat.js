@@ -53,7 +53,7 @@ const Chat = ({messages}) => {
                         </span>
                     </p>
                 ))}
-                <p className = "chat_message">
+                {/* <p className = "chat_message">
                     <span className="chat_name">Nabendu</span>
                     This is a message.
                     <span className="chat_timestamp">
@@ -73,7 +73,7 @@ const Chat = ({messages}) => {
                     <span className="chat_timestamp">
                         {new Date().toUTCString()}
                     </span>
-                </p>
+                </p> */}
             </div>
             <div className="chat_footer">
                 <InsertEmoticon />
