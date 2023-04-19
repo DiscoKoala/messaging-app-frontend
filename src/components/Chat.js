@@ -4,22 +4,34 @@ import Avatar from '@mui/material/Avatar'
 import { IconButton } from '@mui/material'
 import { AttachFile, MoreVert, SearchOutlined, InsertEmoticon } from '@mui/icons-material'
 import MicIcon from '@mui/icons-material/Mic'
+import axios from './axios'
 import './Chat.css'
 
-const Chat = () => {
+const Chat = ({messages}) => {
     const [seed, setSeed] = useState("")
+    const [input, setInput] = useState("")
+    const sendMessage = async (e) => {
+        e.preventDefault()
+        await axios.post('/messages/new', {
+            message: input,
+            name: "thewebdev",
+            timestamp: new Date().toUTCString(),
+            received: true
+        })
+        setInput("")
+    }
     useEffect(() => {
         setSeed(Math.floor(Math.random() * 5000))
     }, [])
     return (
         <div className="chat">
-            <div className="chat__header">
+            <div className="chat_header">
                 <Avatar src={`https://avatars.dicebear.com/api/human/b${seed}.svg`} />
-                <div className="chat__headerInfo">
+                <div className="chat_headerInfo">
                     <h3>Room Name</h3>
                     <p>Last seen at...</p>
                 </div>
-                <div className="chat__headerRight">
+                <div className="chat_headerRight">
                     <IconButton>
                         <SearchOutlined />
                     </IconButton>
@@ -31,7 +43,16 @@ const Chat = () => {
                     </IconButton>
                 </div>
             </div>
-            <div className="chat__body">
+            <div className="chat_body">
+                {messages.map(message => (
+                    <p className={`chat_message ${message.received && 'chat_receiver'}`}>
+                        <span className='chat_name'>{message.name}</span>
+                            {message.message}
+                        <span className='chat_timestamp'>
+                            {message.timestamp}
+                        </span>
+                    </p>
+                ))}
                 <p className = "chat_message">
                     <span className="chat_name">Nabendu</span>
                     This is a message.
@@ -57,11 +78,13 @@ const Chat = () => {
             <div className="chat_footer">
                 <InsertEmoticon />
                 <form>
-                    <input 
+                    <input
+                        value = {input}
+                        onChange={e => setInput(e.target.value)}
                         placeholder="Type a message"
                         type="text"
                     />
-                    <button type="submit">Send a message</button>
+                    <button onClick={sendMessage} type="submit">Send a message</button>
                 </form>
                 <MicIcon />
             </div>
