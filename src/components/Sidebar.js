@@ -7,13 +7,14 @@ import IconButton from '@mui/material/IconButton'
 import Avatar from '@mui/material/Avatar'
 import { SearchOutlined } from '@mui/icons-material'
 import SidebarChat from './SidebarChat'
+import { useStateValue } from './StateProvider'
 
-const Sidebar = () => {
+const Sidebar = ({messages}) => {
+    const [{user}, dispatch] = useStateValue()
     return (
         <div className="sidebar">
             <div className="sidebar_header">
-                <Avatar 
-                src="https://pbs.twimg.com/profile_images/1020939891457241088/fcbu814K_400x400.jpg"/>
+                <Avatar src={user?.photoURL} />
                 <div className="sidebar_headerRight">
                     <IconButton>
                         <DonutLargeIcon />
@@ -33,9 +34,7 @@ const Sidebar = () => {
                 </div>
             </div>
             <div className="sidebar_chats">
-                <SidebarChat />
-                <SidebarChat />
-                <SidebarChat />
+                <SidebarChat messages={messages}/>
             </div>
         </div>
     )
