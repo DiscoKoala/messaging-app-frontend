@@ -2,10 +2,11 @@ import './App.css';
 import Sidebar from './components/Sidebar';
 import Chat from './components/Chat';
 import React, {useEffect, useState} from 'react'
-import Pusher from 'pusher-js'
+// import Pusher from 'pusher-js'
 import axios from './components/axios'
 import Login from './components/Login';
 import { useStateValue } from './components/StateProvider';
+const Pusher = require('pusher')
 
 function App() {
   const [messages, setMessages] = useState([])
